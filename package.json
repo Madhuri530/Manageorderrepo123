@@ -1,34 +1,38 @@
 {
-  "name": "ManageOrders",
-  "version": "1.0.0",
-  "description": "A simple CAP project.",
-  "repository": "<Add your repository here>",
-  "license": "UNLICENSED",
-  "private": true,
-  "dependencies": {
-    "@sap/cds": "^7.6.3",
-    "@sap/cds-hana": "^2.0.0",
-    "@sap/hana-client": "^2.19.21",
-    "express": "^4.18.2",
-    "hdb": "^0.19.7",
-    "@sap/xssec": "^3.6.1",
-    "passport": "^0.7.0"
-  },
-  "devDependencies": {
-    "@cap-js/sqlite": "^1",
-    "@sap/cds-dk": "^7",
-    "@sap/hdi-deploy": "^4"
-  },
-  "scripts": {
-    "start": "cds-serve"
-  },
-  "cds": {
-    "requires": {
-      "db": "hana",
-      "auth": "xsuaa"
+    "name": "ManageOrders",
+    "version": "1.0.0",
+    "description": "A simple CAP project.",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap/cds": "^7.6.3",
+        "@sap/cds-hana": "^2.0.0",
+        "@sap/hana-client": "^2.19.21",
+        "express": "^4.18.2",
+        "hdb": "^0.19.7",
+        "@sap/xssec": "^3.6.1",
+        "passport": "^0.7.0"
     },
-    "hana": {
-      "deploy-format": "hdbtable"
+    "devDependencies": {
+        "@cap-js/sqlite": "^1",
+        "@sap/cds-dk": "^7",
+        "@sap/hdi-deploy": "^4",
+        "rimraf": "^3.0.2"
+    },
+    "scripts": {
+        "start": "cds-serve",
+        "undeploy": "cf undeploy ManageOrders --delete-services --delete-service-keys --delete-service-brokers",
+        "build": "rimraf resources mta_archives && mbt build --mtar archive",
+        "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
+    },
+    "cds": {
+        "requires": {
+            "db": "hana",
+            "auth": "xsuaa"
+        },
+        "hana": {
+            "deploy-format": "hdbtable"
+        }
     }
-  }
 }
